@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 
 export default function CustomCursor() {
+  const [mounted, setMounted] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(true) // Start visible
   const [isHovering, setIsHovering] = useState(false)
@@ -10,11 +11,17 @@ export default function CustomCursor() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    
     // Check if device is mobile/touch device
     const checkMobile = () => {
+      if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+        return false
+      }
+      
       const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
                             ('ontouchstart' in window) ||
-                            (navigator.maxTouchPoints > 0)
+                            ((navigator.maxTouchPoints || 0) > 0)
       setIsMobile(isMobileDevice)
       return isMobileDevice
     }
@@ -86,7 +93,7 @@ export default function CustomCursor() {
     }
   }, [])
 
-  if (isMobile || !isVisible) return null
+  if (!mounted || isMobile || !isVisible) return null
 
   return (
     <>

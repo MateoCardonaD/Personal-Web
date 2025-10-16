@@ -9,9 +9,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="light">
-      <head>
-        <title>Mateo Cardona Díaz - Arquitecto y Diseñador</title>
-        <meta name="description" content="Arquitecto y diseñador de proyectos con enfoque en espacios funcionales, hermosos y sostenibles." />
+            <head>
+              <title>Mateo Cardona Díaz</title>
+              <meta name="description" content="Arquitecto y diseñador de proyectos con enfoque en espacios funcionales, hermosos y sostenibles." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
         <link rel="manifest" href="/manifest.json" />
