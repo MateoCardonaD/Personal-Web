@@ -209,7 +209,7 @@ export default function Projects() {
       
       const touch = e.touches[0]
       const x = touch.clientX - el.offsetLeft
-      const walk = (x - startX) * 2.0 // Increased multiplier for better responsiveness
+      const walk = (x - startX) * 1.5 // Balanced multiplier for smooth scrolling
       el.scrollLeft = scrollLeft - walk
       
       momentum = touch.clientX - lastX
@@ -334,7 +334,7 @@ export default function Projects() {
                 WebkitOverflowScrolling: 'touch',
                 cursor: 'grab',
                 scrollSnapType: 'x mandatory',
-                touchAction: 'pan-x pinch-zoom'
+                touchAction: 'pan-x' // Remove pinch-zoom to prevent zooming
               }}
             >
               {projects.map((p, i) => (

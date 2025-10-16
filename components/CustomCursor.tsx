@@ -7,9 +7,24 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(true) // Start visible
   const [isHovering, setIsHovering] = useState(false)
   const [isMoving, setIsMoving] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    // Activate custom cursor immediately when component mounts
+    // Check if device is mobile/touch device
+    const checkMobile = () => {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                            ('ontouchstart' in window) ||
+                            (navigator.maxTouchPoints > 0)
+      setIsMobile(isMobileDevice)
+      return isMobileDevice
+    }
+
+    // Don't activate custom cursor on mobile devices
+    if (checkMobile()) {
+      return
+    }
+
+    // Activate custom cursor immediately when component mounts (desktop only)
     document.body.classList.add('custom-cursor-active')
     
     let timeout: NodeJS.Timeout
@@ -71,7 +86,7 @@ export default function CustomCursor() {
     }
   }, [])
 
-  if (!isVisible) return null
+  if (isMobile || !isVisible) return null
 
   return (
     <>
