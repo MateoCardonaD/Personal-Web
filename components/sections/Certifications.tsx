@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import HiddenComment from '@/components/HiddenComment'
 import { useLanguage } from '@/components/LanguageProvider'
 
@@ -127,6 +127,10 @@ const categoryTranslations: Record<Category, string> = {
 export default function Certifications() {
   const { language } = useLanguage()
   const [active, setActive] = useState<'All' | Category>('Architecture')
+  const [visibleCount, setVisibleCount] = useState(12) // Start with 12 items
+  const [isLoading, setIsLoading] = useState(false)
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   const items = useMemo(() => getItems(language), [language])
 
@@ -134,6 +138,42 @@ export default function Certifications() {
     if (active === 'All') return items
     return items.filter(i => i.category === active)
   }, [active, items])
+
+  const visibleItems = useMemo(() => {
+    return filtered.slice(0, visibleCount)
+  }, [filtered, visibleCount])
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    if (!loadMoreRef.current) return
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (entry.isIntersecting && !isLoading && visibleCount < filtered.length) {
+          setIsLoading(true)
+          setTimeout(() => {
+            setVisibleCount(prev => Math.min(prev + 12, filtered.length))
+            setIsLoading(false)
+          }, 300) // Small delay for smooth loading
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    observerRef.current.observe(loadMoreRef.current)
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+    }
+  }, [visibleCount, filtered.length, isLoading])
+
+  // Reset visible count when category changes
+  useEffect(() => {
+    setVisibleCount(12)
+  }, [active])
 
   const handleCertificateClick = (link?: string) => {
     if (link) {
@@ -158,7 +198,7 @@ export default function Certifications() {
             </div>
           </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((c, i) => (
+            {visibleItems.map((c, i) => (
               <div 
                 key={i} 
                 className={`rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 ${c.link ? 'cursor-pointer hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors' : ''}`}
@@ -187,6 +227,29 @@ export default function Certifications() {
               </div>
             ))}
           </div>
+          
+          {/* Load more trigger and loading indicator */}
+          {visibleCount < filtered.length && (
+            <div ref={loadMoreRef} className="mt-6 flex justify-center">
+              {isLoading ? (
+                <div className="flex items-center gap-2 text-neutral-500">
+                  <div className="w-4 h-4 border-2 border-neutral-300 border-t-neutral-600 rounded-full animate-spin"></div>
+                  <span className="text-sm">
+                    {language === 'en' ? 'Loading more...' : 'Cargando más...'}
+                  </span>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <p className="text-sm text-neutral-500">
+                    {language === 'en' ? 'Scroll down to load more certificates' : 'Desplázate hacia abajo para cargar más certificados'}
+                  </p>
+                  <p className="text-xs text-neutral-400 mt-1">
+                    {visibleCount} / {filtered.length}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
       <HiddenComment text="End: Certifications" />
