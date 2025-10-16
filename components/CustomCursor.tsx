@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react'
 export default function CustomCursor() {
   const [mounted, setMounted] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [isVisible, setIsVisible] = useState(true) // Start visible
+  const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const [isMoving, setIsMoving] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(true) // Start as mobile to prevent flash
 
   useEffect(() => {
     setMounted(true)
@@ -16,25 +16,29 @@ export default function CustomCursor() {
     // Check if device is mobile/touch device
     const checkMobile = () => {
       if (typeof window === 'undefined' || typeof navigator === 'undefined') {
-        return false
+        return true // Default to mobile if we can't check
       }
       
       const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
                             ('ontouchstart' in window) ||
+                            (window.innerWidth <= 768) || // Also check screen width
                             ((navigator.maxTouchPoints || 0) > 0)
-      setIsMobile(isMobileDevice)
       return isMobileDevice
     }
 
+    const isMobileDevice = checkMobile()
+    setIsMobile(isMobileDevice)
+
     // Don't activate custom cursor on mobile devices
-    if (checkMobile()) {
-      return
+    if (isMobileDevice) {
+      return // Early return, no cleanup needed
     }
 
     // Activate custom cursor immediately when component mounts (desktop only)
     document.body.classList.add('custom-cursor-active')
+    setIsVisible(true)
     
-    let timeout: NodeJS.Timeout
+    let timeout: NodeJS.Timeout | null = null
 
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY })
@@ -45,7 +49,7 @@ export default function CustomCursor() {
       document.body.classList.add('custom-cursor-active')
       
       // Hide cursor after mouse stops moving (increased to 5 seconds)
-      clearTimeout(timeout)
+      if (timeout) clearTimeout(timeout)
       timeout = setTimeout(() => {
         setIsVisible(false)
         setIsMoving(false)
@@ -88,7 +92,7 @@ export default function CustomCursor() {
       document.removeEventListener('mouseleave', handleMouseLeave)
       document.removeEventListener('mouseover', handleMouseOver)
       document.removeEventListener('mouseout', handleMouseOut)
-      clearTimeout(timeout)
+      if (timeout) clearTimeout(timeout)
       document.body.classList.remove('custom-cursor-active')
     }
   }, [])
