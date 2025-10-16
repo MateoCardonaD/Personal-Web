@@ -101,7 +101,7 @@ export default function SocialBar() {
         <IconInstagram className="h-4 w-4" />
       </a>
       <a
-        href="https://wa.me/message/XIXY4NUSRHMEC1"
+        href="https://wa.me/XIXY4NUSRHMEC1"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"

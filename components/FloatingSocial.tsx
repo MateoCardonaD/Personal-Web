@@ -27,7 +27,7 @@ export default function FloatingSocial() {
           { href: 'https://www.linkedin.com/in/mateo-cardona-díaz/', label: t.linkedin },
     { href: 'https://www.behance.net/mateocardonadaz', label: t.behance },
     { href: 'https://www.instagram.com/mateocardona31/', label: t.instagram },
-    { href: 'https://wa.me/message/XIXY4NUSRHMEC1', label: t.whatsapp },
+    { href: 'https://wa.me/XIXY4NUSRHMEC1', label: t.whatsapp },
   ]
 
   const [open, setOpen] = useState(false)
@@ -56,7 +56,7 @@ export default function FloatingSocial() {
   const animBase = 'transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform'
 
   return (
-    <div className="fixed bottom-4 right-20 z-50" ref={wrapperRef}>
+    <div className="fixed bottom-16 right-4 z-50" ref={wrapperRef}>
       <div className="relative flex flex-col items-end gap-6">
         {/* Items stack with only labels */}
         <div className="flex flex-col items-end gap-6" aria-hidden={!open}>

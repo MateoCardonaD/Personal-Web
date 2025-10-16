@@ -36,7 +36,7 @@ export default function Tagline() {
       <HiddenComment text="Start: Tagline" />
       <section id="tagline" className="w-full">
         <div ref={rootRef} className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-          <h2 className="tracking-tight text-neutral-800 dark:text-neutral-100 font-bold leading-[1.02] text-[clamp(32px,8.5vw,76px)] text-center sm:text-left">
+          <h2 className="tracking-tight text-neutral-800 dark:text-neutral-100 font-bold leading-[1.02] text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center sm:text-left">
             {lines.map((l, i) => (
               <span
                 key={i}
