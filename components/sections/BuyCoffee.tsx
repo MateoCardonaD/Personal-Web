@@ -18,7 +18,7 @@ export default function BuyCoffee() {
     <>
       <HiddenComment text="Start: Buy Me a Coffee Floating Button" />
       <div 
-        className={`fixed bottom-6 left-6 z-50 transition-all duration-800 ease-[cubic-bezier(0.25, 0.46, 0.45, 0.94)] ${
+        className={`fixed bottom-6 right-6 z-50 transition-all duration-800 ease-[cubic-bezier(0.25, 0.46, 0.45, 0.94)] ${
           isVisible 
             ? 'opacity-100 translate-y-0 scale-100' 
             : 'opacity-0 translate-y-8 scale-95'

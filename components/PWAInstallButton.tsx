@@ -26,7 +26,7 @@ export default function PWAInstallButton() {
     <button
       onClick={handleInstall}
       disabled={isInstalling}
-      className="fixed bottom-4 right-4 z-50 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="fixed bottom-4 left-4 z-50 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
       aria-label="Instalar aplicación"
     >
       {isInstalling ? (
