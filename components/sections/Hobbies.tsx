@@ -266,7 +266,8 @@ export default function Hobbies() {
     if (!ticker) return
 
     let animationId: number
-    const scrollSpeed = 0.4 // Smooth and natural speed for pleasant movement
+    // Faster speed on mobile devices
+    const scrollSpeed = window.innerWidth <= 768 ? 1.2 : 0.4
 
     const animate = () => {
       if (!isPaused) {

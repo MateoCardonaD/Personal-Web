@@ -324,14 +324,15 @@ export default function Projects() {
           <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
             <div
               ref={scrollerRef}
-              className="flex px-4 sm:px-6 lg:px-8 overflow-x-auto select-none cursor-grab [-ms-overflow-style:none] [scrollbar-width:none] gap-2 snap-x snap-mandatory"
+              className="flex px-4 sm:px-6 lg:px-8 overflow-x-auto select-none cursor-grab [-ms-overflow-style:none] [scrollbar-width:none] gap-2 snap-x snap-mandatory touch-pan-x"
               style={{ 
                 userSelect: 'none', 
                 WebkitUserSelect: 'none',
                 scrollBehavior: 'smooth',
                 WebkitOverflowScrolling: 'touch',
                 cursor: 'grab',
-                scrollSnapType: 'x mandatory'
+                scrollSnapType: 'x mandatory',
+                touchAction: 'pan-x pinch-zoom'
               }}
             >
               {projects.map((p, i) => (

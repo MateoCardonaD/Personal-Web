@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import { useTheme } from './ThemeProvider'
 
 function SunIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -20,39 +21,23 @@ function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export default function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
-    const prefersDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
-    const dark = stored ? stored === 'dark' : prefersDark
-    setIsDark(dark)
   }, [])
-
-  useEffect(() => {
-    if (!mounted) return
-    const root = document.documentElement
-    if (isDark) {
-      root.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      root.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }, [mounted, isDark])
 
   if (!mounted) return null
 
   return (
     <button
       type="button"
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      onClick={() => setIsDark(v => !v)}
+      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      onClick={toggleTheme}
       className="inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-900 text-neutral-700 dark:text-neutral-300 transition-colors"
     >
-      {isDark ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
+      {theme === 'dark' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
     </button>
   )
 }

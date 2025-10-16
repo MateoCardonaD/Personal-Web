@@ -177,9 +177,13 @@ export default function Highlights() {
             <div
               ref={scrollerRef}
               id="highlights-scroller"
-              className={`flex gap-8 px-6 sm:px-12 overflow-x-auto snap-x snap-mandatory scroll-px-12 [-ms-overflow-style:none] [scrollbar-width:none] ${
+              className={`flex gap-8 px-6 sm:px-12 overflow-x-auto snap-x snap-mandatory scroll-px-12 [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x ${
                 visible ? 'opacity-100' : 'opacity-0'
               } transition-opacity duration-700`}
+              style={{ 
+                touchAction: 'pan-x pinch-zoom',
+                WebkitOverflowScrolling: 'touch'
+              }}
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
               onTouchStart={() => setPaused(true)}

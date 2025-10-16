@@ -1,5 +1,6 @@
 import './globals.css'
 import { LanguageProvider } from '@/components/LanguageProvider'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 export default function RootLayout({
   children,
@@ -7,7 +8,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <head>
         <title>Mateo Cardona Díaz - Arquitecto y Diseñador</title>
         <meta name="description" content="Arquitecto y diseñador de proyectos con enfoque en espacios funcionales, hermosos y sostenibles." />
@@ -21,9 +22,11 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className="bg-[#F7F4EF] dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
