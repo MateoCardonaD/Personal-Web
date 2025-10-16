@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos personalizados del portafolio */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Configuración del tema oscuro */
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  /* Hardware acceleration for animations */
+  .animate-smooth {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* Performance optimizations */
+  .performance-optimized {
+    contain: layout style paint;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Smooth parallax transitions */
+  .parallax-smooth {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* Custom easing curves matching The Workshop */
+  .ease-workshop {
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .ease-workshop-slow {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Hide native cursor when custom cursor is active */
+  body.custom-cursor-active {
+    cursor: none !important;
+  }
+
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+

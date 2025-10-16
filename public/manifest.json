@@ -1,0 +1,30 @@
+{
+  "name": "Mateo Cardona Díaz - Portfolio",
+  "short_name": "Mateo Portfolio",
+  "description": "Arquitecto y diseñador de proyectos con enfoque en espacios funcionales, hermosos y sostenibles.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F4EF",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["architecture", "design", "portfolio"],
+  "lang": "es",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}
+
