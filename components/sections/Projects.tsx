@@ -108,6 +108,8 @@ export default function Projects() {
     let momentum = 0
     let lastX = 0
     let animationId: number | null = null
+    let touchStartX = 0
+    let touchStartTime = 0
 
     const onMouseDown = (e: MouseEvent) => {
       isDown = true
@@ -115,6 +117,23 @@ export default function Projects() {
       startX = e.pageX - el.offsetLeft
       scrollLeft = el.scrollLeft
       lastX = e.pageX
+      momentum = 0
+      
+      // Cancel any ongoing momentum animation
+      if (animationId) {
+        cancelAnimationFrame(animationId)
+        animationId = null
+      }
+    }
+
+    const onTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      touchStartX = touch.clientX
+      touchStartTime = Date.now()
+      isDown = true
+      startX = touch.clientX - el.offsetLeft
+      scrollLeft = el.scrollLeft
+      lastX = touch.clientX
       momentum = 0
       
       // Cancel any ongoing momentum animation
@@ -139,7 +158,7 @@ export default function Projects() {
         if (Math.abs(momentum) > 0.5) {
           const applyMomentum = () => {
             el.scrollLeft += momentum
-            momentum *= 0.88 // Decay factor
+            momentum *= 0.92 // Slower decay for smoother momentum
             
             if (Math.abs(momentum) > 0.5) {
               animationId = requestAnimationFrame(applyMomentum)
@@ -184,34 +203,17 @@ export default function Projects() {
       setActive(bestIdx)
     }
 
-    // Touch events for mobile
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length !== 1) return
-      const touch = e.touches[0]
-      isDown = true
-      el.style.cursor = 'grabbing'
-      startX = touch.pageX - el.offsetLeft
-      scrollLeft = el.scrollLeft
-      lastX = touch.pageX
-      momentum = 0
-      
-      if (animationId) {
-        cancelAnimationFrame(animationId)
-        animationId = null
-      }
-    }
-    
     const onTouchMove = (e: TouchEvent) => {
       if (!isDown || e.touches.length !== 1) return
       e.preventDefault()
       
       const touch = e.touches[0]
-      const x = touch.pageX - el.offsetLeft
-      const walk = (x - startX) * 1.8
+      const x = touch.clientX - el.offsetLeft
+      const walk = (x - startX) * 2.0 // Increased multiplier for better responsiveness
       el.scrollLeft = scrollLeft - walk
       
-      momentum = touch.pageX - lastX
-      lastX = touch.pageX
+      momentum = touch.clientX - lastX
+      lastX = touch.clientX
     }
     
     const onTouchEnd = () => {

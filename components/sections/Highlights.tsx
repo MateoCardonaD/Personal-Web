@@ -196,7 +196,7 @@ export default function Highlights() {
                 <article
                   key={item.title}
                   aria-current={active === i}
-                  className={`snap-center snap-always shrink-0 rounded-2xl border border-neutral-200/60 dark:border-neutral-800 bg-[#F7F4EF] dark:bg-neutral-950 p-7 sm:p-9 shadow-sm min-w-full md:min-w-[94%] lg:min-w-[90%] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] scroll-ml-12 scroll-mr-12 ${
+                  className={`snap-center snap-always shrink-0 rounded-2xl border border-neutral-200/60 dark:border-neutral-800 bg-[#F7F4EF] dark:bg-neutral-950 p-4 sm:p-7 md:p-9 shadow-sm w-[calc(100vw-3rem)] sm:w-[calc(100vw-6rem)] md:min-w-[94%] lg:min-w-[90%] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] scroll-ml-12 scroll-mr-12 ${
                     active === i ? 'opacity-100 translate-y-0' : 'opacity-80 translate-y-1'
                   }`}
                 >
