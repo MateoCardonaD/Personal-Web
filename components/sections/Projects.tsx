@@ -108,8 +108,6 @@ export default function Projects() {
     let momentum = 0
     let lastX = 0
     let animationId: number | null = null
-    let touchStartX = 0
-    let touchStartTime = 0
 
     const onMouseDown = (e: MouseEvent) => {
       isDown = true
@@ -126,17 +124,9 @@ export default function Projects() {
       }
     }
 
+    // Don't need custom touch handlers - let browser handle native scroll on mobile
     const onTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0]
-      touchStartX = touch.clientX
-      touchStartTime = Date.now()
-      isDown = true
-      startX = touch.clientX - el.offsetLeft
-      scrollLeft = el.scrollLeft
-      lastX = touch.clientX
-      momentum = 0
-      
-      // Cancel any ongoing momentum animation
+      // Cancel any ongoing momentum animation when user touches
       if (animationId) {
         cancelAnimationFrame(animationId)
         animationId = null
@@ -203,37 +193,7 @@ export default function Projects() {
       setActive(bestIdx)
     }
 
-    const onTouchMove = (e: TouchEvent) => {
-      if (!isDown || e.touches.length !== 1) return
-      e.preventDefault()
-      
-      const touch = e.touches[0]
-      const x = touch.clientX - el.offsetLeft
-      const walk = (x - startX) * 1.5 // Balanced multiplier for smooth scrolling
-      el.scrollLeft = scrollLeft - walk
-      
-      momentum = touch.clientX - lastX
-      lastX = touch.clientX
-    }
-    
-    const onTouchEnd = () => {
-      if (isDown) {
-        isDown = false
-        el.style.cursor = 'grab'
-        
-        if (Math.abs(momentum) > 0.5) {
-          const applyMomentum = () => {
-            el.scrollLeft += momentum
-            momentum *= 0.88
-            
-            if (Math.abs(momentum) > 0.5) {
-              animationId = requestAnimationFrame(applyMomentum)
-            }
-          }
-          applyMomentum()
-        }
-      }
-    }
+    // Remove custom touch move/end handlers - use native scroll
 
     // Add event listeners
     el.addEventListener('mousedown', onMouseDown)
@@ -244,10 +204,8 @@ export default function Projects() {
     el.addEventListener('scroll', calcActive, { passive: true })
     window.addEventListener('resize', calcActive)
     
-    // Touch events for mobile
-    el.addEventListener('touchstart', onTouchStart, { passive: false })
-    el.addEventListener('touchmove', onTouchMove, { passive: false })
-    el.addEventListener('touchend', onTouchEnd, { passive: true })
+    // Touch events for mobile - only cancel momentum on touch start
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
 
     // Add global mouse up listener to handle cases where mouse leaves the element
     const onGlobalMouseUp = () => {
@@ -267,10 +225,8 @@ export default function Projects() {
       window.removeEventListener('resize', calcActive)
       document.removeEventListener('mouseup', onGlobalMouseUp)
       
-      // Remove touch events
+      // Remove touch event
       el.removeEventListener('touchstart', onTouchStart)
-      el.removeEventListener('touchmove', onTouchMove)
-      el.removeEventListener('touchend', onTouchEnd)
       
       if (animationId) {
         cancelAnimationFrame(animationId)
@@ -326,15 +282,13 @@ export default function Projects() {
           <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
             <div
               ref={scrollerRef}
-              className="flex px-4 sm:px-6 lg:px-8 overflow-x-auto select-none cursor-grab [-ms-overflow-style:none] [scrollbar-width:none] gap-2 snap-x snap-mandatory touch-pan-x"
+              className="flex px-4 sm:px-6 lg:px-8 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] gap-2 snap-x snap-mandatory"
               style={{ 
-                userSelect: 'none', 
-                WebkitUserSelect: 'none',
                 scrollBehavior: 'smooth',
                 WebkitOverflowScrolling: 'touch',
                 cursor: 'grab',
                 scrollSnapType: 'x mandatory',
-                touchAction: 'pan-x' // Remove pinch-zoom to prevent zooming
+                touchAction: 'pan-x' // Allow horizontal scroll, prevent zoom
               }}
             >
               {projects.map((p, i) => (
