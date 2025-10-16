@@ -143,7 +143,7 @@ export default function Certifications() {
     return filtered.slice(0, visibleCount)
   }, [filtered, visibleCount])
 
-  // Intersection Observer for infinite scroll
+  // Intersection Observer for infinite scroll - optimized for fast scrolling
   useEffect(() => {
     if (!loadMoreRef.current) return
 
@@ -152,13 +152,20 @@ export default function Certifications() {
         const [entry] = entries
         if (entry.isIntersecting && !isLoading && visibleCount < filtered.length) {
           setIsLoading(true)
-          setTimeout(() => {
+          // Use requestAnimationFrame for smoother loading
+          requestAnimationFrame(() => {
             setVisibleCount(prev => Math.min(prev + 12, filtered.length))
-            setIsLoading(false)
-          }, 300) // Small delay for smooth loading
+            // Shorter delay for faster response
+            setTimeout(() => {
+              setIsLoading(false)
+            }, 150)
+          })
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px' // Start loading before reaching the bottom
+      }
     )
 
     observerRef.current.observe(loadMoreRef.current)
@@ -228,22 +235,19 @@ export default function Certifications() {
             ))}
           </div>
           
-          {/* Load more trigger and loading indicator */}
+          {/* Load more trigger and loading indicator - minimal for smooth scrolling */}
           {visibleCount < filtered.length && (
-            <div ref={loadMoreRef} className="mt-6 flex justify-center">
+            <div ref={loadMoreRef} className="mt-6 flex justify-center min-h-[40px]">
               {isLoading ? (
                 <div className="flex items-center gap-2 text-neutral-500">
-                  <div className="w-4 h-4 border-2 border-neutral-300 border-t-neutral-600 rounded-full animate-spin"></div>
-                  <span className="text-sm">
-                    {language === 'en' ? 'Loading more...' : 'Cargando más...'}
+                  <div className="w-3 h-3 border border-neutral-300 border-t-neutral-600 rounded-full animate-spin"></div>
+                  <span className="text-xs">
+                    {language === 'en' ? 'Loading...' : 'Cargando...'}
                   </span>
                 </div>
               ) : (
                 <div className="text-center">
-                  <p className="text-sm text-neutral-500">
-                    {language === 'en' ? 'Scroll down to load more certificates' : 'Desplázate hacia abajo para cargar más certificados'}
-                  </p>
-                  <p className="text-xs text-neutral-400 mt-1">
+                  <p className="text-xs text-neutral-400">
                     {visibleCount} / {filtered.length}
                   </p>
                 </div>
