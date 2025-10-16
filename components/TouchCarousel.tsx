@@ -26,7 +26,7 @@ export default function TouchCarousel({
   const [momentum, setMomentum] = useState(0)
   
   const carouselRef = useRef<HTMLDivElement>(null)
-  const autoPlayRef = useRef<NodeJS.Timeout>()
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
 
   const goToSlide = useCallback((index: number) => {
     if (!carouselRef.current) return
