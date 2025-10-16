@@ -27,7 +27,7 @@ export default function FloatingSocial() {
           { href: 'https://www.linkedin.com/in/mateo-cardona-díaz/', label: t.linkedin },
     { href: 'https://www.behance.net/mateocardonadaz', label: t.behance },
     { href: 'https://www.instagram.com/mateocardona31/', label: t.instagram },
-    { href: 'https://wa.me/XIXY4NUSRHMEC1', label: t.whatsapp },
+    { href: 'https://wa.me/message/XIXY4NUSRHMEC1', label: t.whatsapp },
   ]
 
   const [open, setOpen] = useState(false)
