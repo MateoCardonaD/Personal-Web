@@ -13,13 +13,14 @@ export default function RootLayout({
               <title>Mateo Cardona Díaz</title>
               <meta name="description" content="Arquitecto y diseñador de proyectos con enfoque en espacios funcionales, hermosos y sostenibles." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Mateo Portfolio" />
-        <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className="bg-[#F7F4EF] dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
         <ThemeProvider>
