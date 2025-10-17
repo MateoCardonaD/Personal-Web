@@ -181,8 +181,9 @@ export default function Highlights() {
                 visible ? 'opacity-100' : 'opacity-0'
               } transition-opacity duration-700`}
               style={{ 
-                touchAction: 'pan-x pinch-zoom',
-                WebkitOverflowScrolling: 'touch'
+                touchAction: 'pan-x',
+                WebkitOverflowScrolling: 'touch',
+                overflowY: 'hidden'
               }}
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
@@ -191,6 +192,11 @@ export default function Highlights() {
             >
               <style jsx>{`
                 #highlights-scroller::-webkit-scrollbar { display: none; }
+                #highlights-scroller {
+                  overflow-y: hidden !important;
+                  overscroll-behavior-x: contain;
+                  overscroll-behavior-y: none;
+                }
               `}</style>
               {(language === 'en' ? items : itemsEs).map((item, i) => (
                 <article
